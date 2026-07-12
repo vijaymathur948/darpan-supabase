@@ -1,0 +1,3 @@
+-- Optional seed data.
+-- Not applied by `supabase db push` unless you pass --include-seed.
+-- Prefer creating production data via migrations or the Dashboard.
