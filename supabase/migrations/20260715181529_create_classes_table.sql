@@ -1,18 +1,14 @@
--- Standalone schema start (pgcrypto needed for gen_random_uuid).
-create extension if not exists "pgcrypto";
-
 -- Classes table: name, schedule (daily for now), status (active|inactive).
--- Auth is still deferred, so RLS is open to anon/authenticated for now.
 
 create table public.classes (
   id uuid primary key default gen_random_uuid(),
   name text not null,
-  schedule text not null default 'daily',
-  start_time time not null,
-  end_time time not null,
   status text not null default 'active'
     check (status in ('active', 'inactive')),
+  start_time time not null,
+  end_time time not null,
   created_at timestamptz not null default now(),
+  constraint classes_name_not_blank check (char_length(trim(name)) > 0),
   constraint classes_end_after_start check (end_time > start_time)
 );
 

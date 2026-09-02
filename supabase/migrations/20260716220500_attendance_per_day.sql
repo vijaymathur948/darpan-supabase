@@ -1,22 +1,7 @@
--- Attendance was unique per class *forever*; fix it to be unique per class per day
--- so custom (non-daily) schedules and multi-day history both work correctly.
+-- Attendance is tracked per class-session day.
 
 alter table public.attendance
-  add column session_date date;
+  add column attendance_date date not null default current_date;
 
-update public.attendance
-  set session_date = started_at::date
-  where session_date is null;
-
-alter table public.attendance
-  alter column session_date set not null,
-  alter column session_date set default current_date;
-
-alter table public.attendance
-  drop constraint attendance_one_per_class;
-
-alter table public.attendance
-  add constraint attendance_one_per_class_per_day unique (class_id, session_date);
-
-create index attendance_class_id_session_date_idx
-  on public.attendance (class_id, session_date);
+create index attendance_class_date_idx
+  on public.attendance (class_id, attendance_date);

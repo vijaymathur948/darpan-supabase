@@ -1,19 +1,13 @@
--- Attendance: one enrollment per class (single student for now).
--- started_at = when Attend is tapped; withdrawn_at = null until withdraw (once).
+-- Class attendance log: when a user joined and when they left a class.
 
 create table public.attendance (
   id uuid primary key default gen_random_uuid(),
   class_id uuid not null references public.classes (id) on delete cascade,
-  started_at timestamptz not null default now(),
-  withdrawn_at timestamptz,
+  joined_at timestamptz not null default now(),
+  exited_at timestamptz,
   created_at timestamptz not null default now(),
-  constraint attendance_one_per_class unique (class_id),
-  constraint attendance_withdraw_after_start check (
-    withdrawn_at is null or withdrawn_at >= started_at
-  )
+  constraint attendance_exit_after_join check (exited_at is null or exited_at >= joined_at)
 );
-
-create index attendance_class_id_idx on public.attendance (class_id);
 
 alter table public.attendance enable row level security;
 
