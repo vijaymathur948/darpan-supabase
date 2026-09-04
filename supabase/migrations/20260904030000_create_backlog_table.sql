@@ -46,3 +46,4 @@ CREATE POLICY "Allow authenticated users to delete backlog"
 CREATE INDEX idx_backlog_status ON backlog(status);
 CREATE INDEX idx_backlog_priority ON backlog(priority);
 CREATE INDEX idx_backlog_due_date ON backlog(due_date);
+
