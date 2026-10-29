@@ -45,7 +45,7 @@ supabase/
   seed.sql             # Not applied on push unless you pass --include-seed
 ```
 
-Orders can have a custom dated schedule in `order_installments`, with received payments recorded against individual installments in `order_payments`. The Orders page calculates paid, remaining, and scheduled balances from this history. Apply the migration with the normal `supabase db push` workflow.
+Orders can have a custom dated schedule in `order_installments`, with received payments recorded against individual installments in `order_payments`. The Orders page calculates paid, remaining, and scheduled balances from this history. Receipt checks store actual received quantities on order items; checked quantities are used for inventory. Apply the migrations with the normal `supabase db push` workflow.
 
 Auth (profiles, RLS on user data, Dashboard URL config) is deferred to a later step.
 
