@@ -1,7 +1,13 @@
 alter table public.order_items
-  rename column unit_amount to cost_price,
-  rename column max_unit_amount to max_retail_price,
-  rename constraint order_items_unit_amount_non_negative to order_items_cost_price_non_negative,
+  rename column unit_amount to cost_price;
+
+alter table public.order_items
+  rename column max_unit_amount to max_retail_price;
+
+alter table public.order_items
+  rename constraint order_items_unit_amount_non_negative to order_items_cost_price_non_negative;
+
+alter table public.order_items
   rename constraint order_items_max_unit_amount_non_negative to order_items_max_retail_price_non_negative;
 
 create or replace function public.calculate_order_payable_amount(p_order_id uuid, p_order_amount numeric)
